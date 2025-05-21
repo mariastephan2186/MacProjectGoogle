@@ -32,6 +32,7 @@ public class GooglePage {
         driver.manage().window().maximize();
         driver.get("https://www.google.co.uk/");
     }
+    //Method to tap reject all  button
     public void selectRejectAll() {
         Actions actions = new Actions(driver);
 actions.moveToElement(driver.findElement(REJECT_ALL));
