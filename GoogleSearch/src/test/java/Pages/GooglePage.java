@@ -51,7 +51,7 @@ actions.moveToElement(driver.findElement(REJECT_ALL));
        }
     }
 
-
+//Search
     public void feelingLuckySearchResults() {
         String url = driver.getCurrentUrl();
         assertThat(url).contains(String.valueOf(getSearch().getText()));
