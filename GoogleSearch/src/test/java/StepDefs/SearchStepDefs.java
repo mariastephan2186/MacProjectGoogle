@@ -1,5 +1,6 @@
 package StepDefs;
 
+import Actions.SearchActions;
 import Pages.GooglePage;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -28,7 +29,8 @@ public class SearchStepDefs {
         @Given("^I am on the Google UK homepage$")
     public void iAmOnTheGoogleUKHomepage() {
         google.navigateToGoogle();
-google.selectRejectAll();        }
+        google.selectRejectAll();
+    }
         @When("^I enter a search term \"([^\"]*)\"$")
         public void iEnterASearchTerm(String searchTerm) {
         google.getSearch();
