@@ -10,7 +10,7 @@ import org.testng.Assert;
 
 import java.time.Duration;
 
-public class Search {
+public class SearchPage {
     private static final By SEARCH_FIELD = By.id("APjFqb");
     private static final By SEARCH_RESULTS = By.xpath("//a/h3");
     private static final By FEELING_LUCKY_BUTTON = By.id("gbqfbb");
@@ -18,7 +18,7 @@ public class Search {
     private static final By DROPDOWN = By.id("gbqfqw");
     private WebDriver driver;
 
-    public Search(WebDriver driver) {
+    public SearchPage(WebDriver driver) {
         this.driver = driver;
         WebElement dropdown = driver.findElement(DROPDOWN);
         Select select = new Select(dropdown);
