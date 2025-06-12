@@ -15,6 +15,7 @@ public class SearchPage {
     private static final By SEARCH_RESULTS = By.xpath("//a/h3");
     private static final By FEELING_LUCKY_BUTTON = By.id("gbqfbb");
     private static final By REJECT_ALL = By.id("W0wltc");
+
     private static final By DROPDOWN = By.id("gbqfqw");
     private WebDriver driver;
 
