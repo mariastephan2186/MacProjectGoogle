@@ -7,7 +7,7 @@ test.describe('Authentication Flow', () => {
     await page.goto('/');
   });
 
-  test('complete authentication flow with MetaMask', async ({ page }) => {
+  test(' complete authentication flow with MetaMask', async ({ page }) => {
     // Connect wallet
     await page.getByTestId('connect-wallet-button').click();
 
