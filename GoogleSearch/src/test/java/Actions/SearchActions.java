@@ -11,6 +11,5 @@ public class SearchActions {
 
 public void selectRejectAll(){
 
-    new GooglePage().selectRejectAll();
 }
 }

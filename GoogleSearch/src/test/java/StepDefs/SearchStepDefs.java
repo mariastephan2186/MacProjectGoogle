@@ -41,6 +41,7 @@ public class SearchStepDefs {
         public void resultsRelevantToTheSearchTermAreReturned() {
         google.displaySearchResults();
         google.navigateToGoogle();
+
         }
         @When("^I tap on Feeling lucky button$")
     public void iTapOnFeelingLuckyButton() {
