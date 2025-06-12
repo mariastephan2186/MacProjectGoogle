@@ -35,6 +35,17 @@ test.describe('Authentication Flow', () => {
   });
 });
 
+/**
+ * Following additional tests cover:
+ * - Edge cases in authentication
+ * - Form validation
+ * - Error states and recovery
+ * - Data synchronization
+ * - Network issues
+ * - Performance metrics
+ * - Concurrent operations
+ * - State management across sessions
+ */
 // apps/client/e2e/user-interaction.spec.ts
 test.describe('User Interaction Flows', () => {
   test.beforeEach(async ({ page }) => {
@@ -88,5 +99,101 @@ test.describe('Data Persistence', () => {
 
     // Verify still authenticated
     await expect(page.getByTestId('protected-content')).toBeVisible();
+  });
+
+  test('shows error message for rejected wallet connection', async ({ page }) => {
+    await page.getByTestId('connect-wallet-button').click();
+    const metamaskPopup = await page.waitForEvent('popup');
+    await metamaskPopup.getByRole('button', { name: 'Reject' }).click();
+    await expect(page.getByTestId('connection-error')).toBeVisible();
+  });
+
+  test('handles network switching', async ({ page }) => {
+    // Test wallet connection on different networks
+    await page.getByTestId('connect-wallet-button').click();
+    await page.getByTestId('network-switch').click();
+    await expect(page.getByTestId('network-name')).toHaveText('Expected Network');
+  });
+
+
+  test('validates form input requirements', async ({ page }) => {
+    await page.getByTestId('start-action').click();
+    await page.getByTestId('submit-button').click();
+    await expect(page.getByTestId('validation-error')).toBeVisible();
+  });
+
+  test('handles concurrent user actions', async ({ page }) => {
+    // Test multiple rapid interactions
+    await Promise.all([
+      page.getByTestId('action-1').click(),
+      page.getByTestId('action-2').click()
+    ]);
+    await expect(page.getByTestId('action-result')).toBeVisible();
+  });
+
+  test('clears data on logout', async ({ page }) => {
+    // Setup initial state
+    await page.goto('/settings');
+    await page.getByTestId('preference-toggle').click();
+
+    // Perform logout
+    await page.getByTestId('logout-button').click();
+
+    // Verify data is cleared
+    await page.reload();
+    await expect(page.getByTestId('preference-toggle')).not.toBeChecked();
+  });
+
+  test('syncs data across tabs', async ({ browser }) => {
+    const context = await browser.newContext();
+    const page1 = await context.newPage();
+    const page2 = await context.newPage();
+
+    await page1.goto('/settings');
+    await page1.getByTestId('preference-toggle').click();
+
+    await page2.goto('/settings');
+    await expect(page2.getByTestId('preference-toggle')).toBeChecked();
+  });
+
+  test('handles network disconnection gracefully', async ({ page }) => {
+    await page.route('**/*', (route) => route.abort('internetdisconnected'));
+    await page.getByTestId('start-action').click();
+    await expect(page.getByTestId('network-error')).toBeVisible();
+  });
+
+  test('retries failed operations', async ({ page }) => {
+    let attemptCount = 0;
+    await page.route('**/api/action', (route) => {
+      attemptCount++;
+      if (attemptCount < 2) {
+        route.abort();
+      } else {
+        route.fulfill({ status: 200, body: 'Success' });
+      }
+    });
+
+    await page.getByTestId('action-button').click();
+    await expect(page.getByTestId('success-message')).toBeVisible();
+  });
+
+  test('loads within performance budget', async ({ page }) => {
+    const startTime = Date.now();
+    await page.goto('/');
+    const loadTime = Date.now() - startTime;
+    expect(loadTime).toBeLessThan(3000); // 3 second budget
+  });
+
+  test('handles large data sets', async ({ page }) => {
+    // Test with significant amount of data
+    await page.route('**/api/data', (route) => {
+      route.fulfill({
+        status: 200,
+        body: JSON.stringify(Array(1000).fill({ id: 1, data: 'test' }))
+      });
+    });
+
+    await page.goto('/data-view');
+    await expect(page.getByTestId('data-grid')).toBeVisible();
   });
 });
