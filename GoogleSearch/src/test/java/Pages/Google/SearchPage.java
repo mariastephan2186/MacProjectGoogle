@@ -1,5 +1,6 @@
-package Pages;
+package Pages.Google;
 
+import Pages.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +11,7 @@ import org.testng.Assert;
 
 import java.time.Duration;
 
-public class SearchPage {
+public class SearchPage extends BasePage {
     private static final By SEARCH_FIELD = By.id("APjFqb");
     private static final By SEARCH_RESULTS = By.xpath("//a/h3");
     private static final By FEELING_LUCKY_BUTTON = By.id("gbqfbb");
