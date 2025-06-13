@@ -1,8 +1,0 @@
-{
-  "extends": "tsconfig/nest.json",
-  "strictNullChecks": true,
-  "compilerOptions": {
-    "outDir": "./dist",
-    "baseUrl": "./"
-  }
-}
