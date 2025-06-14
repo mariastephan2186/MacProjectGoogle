@@ -12,7 +12,7 @@ public class DropdownStepdefs extends BaseStepDefs {
     }
 
     @Then("I can select an option from the dropdown")
-    public void iCanSelectAnOptionFromTheDropdown() {
-        Actions.dropdownActions.iCanSelectAnOptionFromTheDropdown();
+    public void iCanSelectAnOptionFromTheDropdown(String option) {
+        Actions.dropdownActions.iCanSelectAnOptionFromTheDropdown(option);
     }
 }

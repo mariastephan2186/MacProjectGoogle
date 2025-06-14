@@ -7,6 +7,7 @@ import io.cucumber.java.en.When;
 public class WindowStepdefs {
     @When("^I click on the CTA \"([^\"]*)\"$")
     public void iClickOnTheCTA(String arg0) {
+
     }
 
     @Then("I can see that a new window is opened")

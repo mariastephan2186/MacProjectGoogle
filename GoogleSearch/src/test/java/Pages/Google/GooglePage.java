@@ -1,6 +1,6 @@
 package Pages.Google;
 
-import Pages.BasePage;
+import Pages.BaseGooglePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -14,16 +14,15 @@ import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class GooglePage extends BasePage {
+public class GooglePage extends BaseGooglePage {
     private static final By SEARCH_FIELD = By.id("APjFqb");
     private static final By SEARCH_RESULTS = By.xpath("//a/h3");
     private static final By FEELING_LUCKY_BUTTON = By.id("gbqfbb");
     private static final By REJECT_ALL = By.id("W0wltc");
 
-    private final WebDriver driver;
 
     public GooglePage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     public WebElement waitForElementToBeClickable(By locator) {

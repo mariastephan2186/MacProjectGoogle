@@ -1,5 +1,6 @@
 package Pages.Google;
 
+import Pages.BaseGooglePage;
 import Pages.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +12,7 @@ import org.testng.Assert;
 
 import java.time.Duration;
 
-public class SearchPage extends BasePage {
+public class SearchPage extends BaseGooglePage {
     private static final By SEARCH_FIELD = By.id("APjFqb");
     private static final By SEARCH_RESULTS = By.xpath("//a/h3");
     private static final By FEELING_LUCKY_BUTTON = By.id("gbqfbb");
@@ -21,6 +22,7 @@ public class SearchPage extends BasePage {
     private WebDriver driver;
 
     public SearchPage(WebDriver driver) {
+        super(driver);
         this.driver = driver;
         WebElement dropdown = driver.findElement(DROPDOWN);
         Select select = new Select(dropdown);

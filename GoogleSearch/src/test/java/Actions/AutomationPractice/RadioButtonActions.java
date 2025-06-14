@@ -1,14 +1,19 @@
 package Actions.AutomationPractice;
 
 import Pages.AutomationPractice.AutomationPracticePage;
+import org.openqa.selenium.WebDriver;
 
 public class RadioButtonActions {
+    private AutomationPracticePage automationPracticePage;
 
+    public RadioButtonActions(WebDriver driver) {
+        this.automationPracticePage = new AutomationPracticePage(driver);
+    }
     public void selectRadioButton(String buttonNumber){
-        new AutomationPracticePage().selectRadioButton(buttonNumber);
+        automationPracticePage.selectRadioButton(buttonNumber);
     }
 
     public void isRadioButtonSelected(String buttonNumber){
-        new AutomationPracticePage().isRadioButtonSelected(buttonNumber);
+automationPracticePage.isRadioButtonSelected(buttonNumber);
     }
 }

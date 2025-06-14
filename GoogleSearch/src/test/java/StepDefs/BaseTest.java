@@ -3,23 +3,23 @@ package StepDefs;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
-public class BaseTest {
+import java.time.Duration;
+
+public abstract class BaseTest {
     private static WebDriver driver;
-    private static final String PRACTICE_URL = "https://automationpractice.com/";
 
-    @Before
-    public void setUp() {
-        driver = SetUp.setUpAndGetDriver();
-        driver.get(PRACTICE_URL);
-        driver.manage().window().maximize();
+    public static void setDriver(WebDriver driver) {
+        BaseTest.driver = driver;
     }
 
-    @After
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
+    protected WebDriver initializeDriver() {
+        // Initialize your WebDriver here
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        return driver;
     }
 
     // Getter method for other step definitions to access the driver

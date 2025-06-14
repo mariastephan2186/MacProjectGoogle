@@ -1,27 +1,32 @@
 package Pages.AutomationPractice;
 
 import Pages.BasePage;
+import StepDefs.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AutomationPracticePage extends BasePage {
-    private final AutomationPracticePage automationPracticePage;
+    private static final String BASE_URL = "https://rahulshettyacademy.com/AutomationPractice/";
+    WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
     // Constructors
-    public AutomationPracticePage(WebDriver driver, AutomationPracticePage automationPracticePage) {
-        this.automationPracticePage = automationPracticePage;
-        this.driver = driver;
+    public AutomationPracticePage(WebDriver driver) {
+        super(driver);
+        driver.manage().window().maximize();
+        driver.get(BASE_URL);
+        System.out.println("Automation Practice Page loaded");
     }
 
-    public AutomationPracticePage() {
-        this.automationPracticePage = new AutomationPracticePage();
-    }
+
 
     //Locators - List of locators on the Automation Practice Page
 
@@ -37,9 +42,10 @@ public class AutomationPracticePage extends BasePage {
     private final By dropdownSelect = By.id("dropdown-class-example");
 
     // Checkboxes
-    private final By checkBox1 = By.id("checkBoxOption1");
+    private static final By checkBox1 = By.id("checkBoxOption1");
     private final By checkBox2 = By.id("checkBoxOption2");
     private final By checkBox3 = By.id("checkBoxOption3");
+    private final By checkboxes = By.cssSelector("input[type='checkbox']");
 
     // Window/Tab Buttons
     private final By openWindowButton = By.id("openwindow");
@@ -63,8 +69,9 @@ public class AutomationPracticePage extends BasePage {
     // Utility Methods
 
     public void openHomePage() {
-        driver.get("https://rahulshettyacademy.com/AutomationPractice/");
+        driver.get(BASE_URL);
     }
+
     public String getPageTitle() {
         return driver.getTitle();
     }
@@ -83,7 +90,7 @@ public class AutomationPracticePage extends BasePage {
             default -> throw new IllegalArgumentException("Invalid radio button number");
         }
     }
-    
+
     public void isRadioButtonSelected(String buttonNumber) {
         switch (buttonNumber) {
             case "1" -> isSelected(radioButton1);
@@ -92,6 +99,8 @@ public class AutomationPracticePage extends BasePage {
             default -> throw new IllegalArgumentException("Invalid radio button number");
         }
     }
+
+
 
     private void isSelected(By radioButton1) {
         if (waitForElement(radioButton1).isSelected()) {
@@ -126,15 +135,6 @@ public class AutomationPracticePage extends BasePage {
     }
 
     // Methods for Window Handling
-    public void openNewWindow() {
-        click(openWindowButton);
-        switchToNewWindow();
-    }
-
-    public void openNewTab() {
-        click(openTabButton);
-        switchToNewWindow();
-    }
 
     // Methods for Alerts
     public void triggerAlert(String name) {
@@ -179,17 +179,14 @@ public class AutomationPracticePage extends BasePage {
     }
 
 
-
     // Checkbox Methods
-    public void selectCheckbox(String optionNumber) {
-        By checkboxLocator;
-        switch (optionNumber) {
-            case "1" -> checkboxLocator = checkBox1;
-            case "2" -> checkboxLocator = checkBox2;
-            case "3" -> checkboxLocator = checkBox3;
-            default -> throw new IllegalArgumentException("Invalid checkbox option: " + optionNumber);
+    public void selectCheckbox(int index) {
+        List<WebElement> boxes = driver.findElements(checkboxes);
+        if (index >= 0 && index < boxes.size()) {
+            boxes.get(index).click();
         }
     }
+
 
     public void deselectCheckbox(String optionNumber) {
         By selectedCheckBoxLocator = By.id("checkBoxOption" + optionNumber);
@@ -199,25 +196,21 @@ public class AutomationPracticePage extends BasePage {
         }
     }
 
-    public boolean isCheckboxSelected(String optionNumber) {
-        By checkboxLocator = By.id("checkBoxOption" + optionNumber);
-        return waitForElement(checkboxLocator).isSelected();
-    }
-
-
-    public List<String> getSelectedCheckboxLabels() {
-        List<String> selectedLabels = new ArrayList<>();
-        for (int i = 1; i <= 3; i++) {
-            if (isCheckboxSelected(String.valueOf(i))) {
-                By labelLocator = By.cssSelector("label[for='checkBoxOption" + i + "']");
-                selectedLabels.add(getText(labelLocator));
-            }
+    public boolean isCheckboxSelected(int index) {
+        By checkboxLocator = By.xpath("//input[@type='checkbox']");
+        List<WebElement> checkboxes = driver.findElements(checkboxLocator);
+        if (index >= 0 && index < checkboxes.size()) {
+            return checkboxes.get(index).isSelected();
         }
-        return selectedLabels;
+        throw new IllegalArgumentException("Checkbox index out of bounds: " + index);
     }
 
 
+
+
+    public void openNewTab() {
     }
+}
 
 
 

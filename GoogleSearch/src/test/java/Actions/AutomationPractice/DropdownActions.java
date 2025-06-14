@@ -1,17 +1,26 @@
 package Actions.AutomationPractice;
 
 import Pages.AutomationPractice.AutomationPracticePage;
+import org.openqa.selenium.WebDriver;
 
 public class DropdownActions {
 
+    private AutomationPracticePage automationPracticePage;
+
+    public DropdownActions(WebDriver driver) {
+        this.automationPracticePage = new AutomationPracticePage(driver);
+    }
 
     public void clickDropdown(){
-        new AutomationPracticePage().clickDropdown();
+
     }
 
 
     public void iCanSelectAnOptionFromTheDropdown(String option) {
-        new AutomationPracticePage().selectFromDropdown(option);
+       automationPracticePage.selectFromDropdown(option);
+    }
+
+    public void selectDropdown(String option) {
 
     }
 }
